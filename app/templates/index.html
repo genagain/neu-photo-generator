@@ -13,9 +13,11 @@
 
     function onLogin(response) {
       if (response.status == 'connected') {
-        FB.api('/me?fields=first_name', function(data) {
+        FB.api('/me?fields=first_name,last_name,education', function(data) {
           var welcomeBlock = document.getElementById('fb-welcome');
           welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+          console.log(data.lastname)
+          console.log(data.education)
         });
       }
     }
