@@ -4,6 +4,8 @@
 
 $red: #cc0000
 $white: #f1f1f1
+$fb: #3b5998
+$gray: rgba(144, 148, 156, 0.65)
 
 // mixins
 
@@ -38,6 +40,10 @@ $white: #f1f1f1
 	width: $width
 	height: $height
 
+// keyframes
+
+
+
 // Base
 
 html
@@ -58,12 +64,14 @@ body
 	flex-direction: column
 	align-items: center
 	justify-content: center
+	padding: 0 1.6rem
 
 strong
 	font-weight: 700
 
 .title
-	margin: 1.6rem 0 0 0
+	align-self: flex-start
+	margin: 0
 	font:
 		size: 4rem
 		family: Baskerville, serif
@@ -158,10 +166,20 @@ strong
 // input
 
 .controls
-	width: 100%
-	padding: 2.4rem 2.4rem 1.6rem 2.4rem
+	width: 100vw
 	order: 1
 	background: darken($red, 12%)
+	display: flex
+	flex-direction: column
+	align-items: center
+
+.wrapper
+	box-sizing: content-box
+	max-width: 60rem
+	width: 100%
+	padding: 2.4rem 1.6rem 1.6rem 1.6rem
+	margin: 0 1.6rem
+
 
 .input
 	width: 100%
@@ -173,16 +191,15 @@ strong
 	padding: 1rem
 	background: #ddd
 	transition: background .2s linear
-	max-width: 60rem
 	&:focus
 		background: #fff
 
 .button
+	float: left
 	display: block
-	width: 100%
-	max-width: 60rem
-	margin: .8rem auto 2.4rem auto
-	background: $red
+	width: 50%
+	margin: .8rem auto 1.1rem auto
+	background: $gray
 	border: none
 	color: $white
 	font:
@@ -197,5 +214,14 @@ strong
 	box-shadow: 0 1px .2em .1em rgba(0,0,0, .03)
 	transition: all .2s linear
 	&:hover
-		background: lighten($red, 8%)
+		background: lighten($gray, 8%)
 		box-shadow: 0 1px 1em .1em rgba(0,0,0, .08)
+	&--fb
+		background: $fb
+		margin-left: 1.5%
+		width: 48.5%
+		&:hover
+			background: lighten($fb, 8%)
+
+.fb-like
+	align-self: flex-start

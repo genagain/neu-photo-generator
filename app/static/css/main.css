@@ -388,13 +388,16 @@ body {
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center; }
+          justify-content: center;
+  padding: 0 1.6rem; }
 
 strong {
   font-weight: 700; }
 
 .title {
-  margin: 1.6rem 0 0 0;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  margin: 0;
   font-size: 4rem;
   font-family: Baskerville, serif;
   font-weight: 300; }
@@ -475,13 +478,28 @@ strong {
             filter: grayscale(100%); }
 
 .controls {
-  width: 100%;
-  padding: 2.4rem 2.4rem 1.6rem 2.4rem;
+  width: 100vw;
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
   background: #8f0000;
-  text-align: center; }
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.wrapper {
+  box-sizing: content-box;
+  max-width: 60rem;
+  width: 100%;
+  padding: 2.4rem 1.6rem 1.6rem 1.6rem;
+  margin: 0 1.6rem; }
 
 .input {
   width: 100%;
@@ -495,17 +513,16 @@ strong {
   padding: 1rem;
   background: #ddd;
   -webkit-transition: background .2s linear;
-  transition: background .2s linear;
-  max-width: 60rem; }
+  transition: background .2s linear; }
   .input:focus {
     background: #fff; }
 
 .button {
+  float: left;
   display: block;
-  width: 100%;
-  max-width: 60rem;
-  margin: .8rem auto 2.4rem auto;
-  background: #cc0000;
+  width: 50%;
+  margin: .8rem auto 1.1rem auto;
+  background: rgba(144, 148, 156, 0.65);
   border: none;
   color: #f1f1f1;
   font-size: 1.6rem;
@@ -522,5 +539,15 @@ strong {
   -webkit-transition: all .2s linear;
   transition: all .2s linear; }
   .button:hover {
-    background: #f50000;
+    background: rgba(166, 169, 175, 0.65);
     box-shadow: 0 1px 1em 0.1em rgba(0, 0, 0, 0.08); }
+  .button--fb {
+    background: #3b5998;
+    margin-left: 1.5%;
+    width: 48.5%; }
+    .button--fb:hover {
+      background: #466ab5; }
+
+.fb-like {
+  -ms-flex-item-align: start;
+      align-self: flex-start; }
