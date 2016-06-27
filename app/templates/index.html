@@ -1,50 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>NEU Poster Generator</title>
+
+  <link rel="stylesheet" href="../static/css/main.css">
 
 </head>
-<body>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1614913708820945',
-        xfbml      : true,
-        version    : 'v2.6'
+  <body>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1614913708820945',
+          xfbml      : true,
+          version    : 'v2.6'
+        });
+
+
+      function onLogin(response) {
+        if (response.status == 'connected') {
+          FB.api('/me?fields=first_name,last_name,education', function(data) {
+            var welcomeBlock = document.getElementById('fb-welcome');
+            welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+            console.log(data.last_name)
+            console.log(data.id)
+          });
+        }
+      }
+
+      FB.getLoginStatus(function(response) {
+        // Check login status on load, and if the user is
+        // already logged in, go directly to the welcome message.
+        if (response.status == 'connected') {
+          onLogin(response);
+        } else {
+          // Otherwise, show Login dialog first.
+          FB.login(function(response) {
+            onLogin(response);
+          }, {scope: 'user_friends, email, public_profile, user_education_history'});
+        }
       });
 
+      };
 
-    function onLogin(response) {
-      if (response.status == 'connected') {
-        FB.api('/me?fields=first_name,last_name,education', function(data) {
-          var welcomeBlock = document.getElementById('fb-welcome');
-          welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
-          console.log(data.last_name)
-          console.log(data.id)
-        });
-      }
-    }
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-    FB.getLoginStatus(function(response) {
-      // Check login status on load, and if the user is
-      // already logged in, go directly to the welcome message.
-      if (response.status == 'connected') {
-        onLogin(response);
-      } else {
-        // Otherwise, show Login dialog first.
-        FB.login(function(response) {
-          onLogin(response);
-        }, {scope: 'user_friends, email, public_profile, user_education_history'});
-      }
-    });
+  <h1 class="title">Northeastern University <span>Poster Generator</span></h1>
 
-    };
+  <span id="fb-welcome"></span>
 
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "//connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-      </script>
-  <h3>This is the index</h3>
-  <h1 id="fb-welcome"></h1>
-</body>
+  <div class="controls">
+    <textarea class="js-input input" rows="4" cols="50" placeholder="Enter your quote here"></textarea>
+    <button class="js-button button">Bold Random Words</button>
+  </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="../static/js/app.js"></script>
+
+  </body>
+</html>
