@@ -374,8 +374,6 @@ body {
   background: #ad0000;
   color: #f1f1f1;
   font-family: 'Helvetica Neue', sans-serif;
-  font-weight: 300;
-  font-size: 3.2rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: -webkit-box;
@@ -449,6 +447,8 @@ strong {
     margin: 0;
     padding: 0;
     position: relative;
+    font-weight: 300;
+    font-size: 3.2rem;
     line-height: 3.4rem;
     letter-spacing: .08rem; }
   .poster__quote:before {
