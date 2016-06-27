@@ -66,6 +66,7 @@
 
       FB.getLoginStatus(function(response) {
         statusChangeCallback(response);
+        console.log('hello', response.authResponse.accessToken, response.authResponse.userID )
       });
 
       };
@@ -91,22 +92,24 @@
       }
     </script>
 
-    <!--
-      Below we include the Login Button social plugin. This button uses
-      the JavaScript SDK to present a graphical Login button that triggers
-      the FB.login() function when clicked.
-    -->
-
-    <!-- scope = user_education_history, publish_actions, user_photos -->
-
-    <fb:login-button scope="user_education_history, publish_actions, user_photos" onlogin="checkLoginState();">
-    </fb:login-button>
-
-    <div id="status">
-    </div>
 
 
   <h1 class="title">Northeastern University <span>Poster Generator</span></h1>
+
+  <!--
+    Below we include the Login Button social plugin. This button uses
+    the JavaScript SDK to present a graphical Login button that triggers
+    the FB.login() function when clicked.
+  -->
+
+  <!-- scope = user_education_history, publish_actions, user_photos -->
+
+  <fb:login-button scope="user_education_history, publish_actions, user_photos" onlogin="checkLoginState();">
+  </fb:login-button>
+
+  <div id="status">
+  </div>
+
 
   <div class="controls">
     <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
