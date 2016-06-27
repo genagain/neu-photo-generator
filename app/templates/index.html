@@ -104,7 +104,12 @@
 
   <!-- scope = user_education_history, publish_actions, user_photos -->
 
-  <fb:login-button scope="user_education_history, publish_actions, user_photos" onlogin="checkLoginState();">
+  <fb:login-button
+    scope="
+      user_education_history,
+      publish_actions,
+      user_photos"
+    onlogin="checkLoginState();">
   </fb:login-button>
 
   <div id="status">
@@ -114,7 +119,7 @@
   <div class="controls">
     <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
     <button class="js-button button">Bold Random Words</button>
-    <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>
+    <div class="fb-like" data-share="true" data-width="450" data-show-faces="true" data-layout="button_count">></div>
   </div>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
