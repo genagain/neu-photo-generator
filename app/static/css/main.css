@@ -457,7 +457,7 @@ strong {
     display: inline; }
   .poster__credit {
     font-size: 1.6rem;
-    line-height: 1.9rem;
+    line-height: 2rem;
     margin-top: 1.2rem; }
   .poster__name:after {
     content: ",";
@@ -521,3 +521,6 @@ strong {
   .button:hover {
     background: #f50000;
     box-shadow: 0 1px 1em 0.1em rgba(0, 0, 0, 0.08); }
+
+.fb-like {
+  margin-top: 1.6rem; }

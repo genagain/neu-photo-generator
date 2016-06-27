@@ -17,6 +17,26 @@
           xfbml      : true,
           version    : 'v2.6'
         });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+
+    <!-- <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1614913708820945',
+          xfbml      : true,
+          version    : 'v2.6'
+        });
 
 
       function onLogin(response) {
@@ -52,13 +72,14 @@
          js.src = "//connect.facebook.net/en_US/sdk.js";
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
-    </script>
+    </script> -->
 
   <h1 class="title">Northeastern University <span>Poster Generator</span></h1>
 
   <div class="controls">
-    <textarea class="js-input input" rows="4" cols="50" placeholder="Enter your quote here"></textarea>
+    <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
     <button class="js-button button">Bold Random Words</button>
+    <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>
   </div>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
