@@ -51,7 +51,7 @@ gulp.task('sync', ['runserver'], function() {
 
 
   gulp.watch('src/js/app.js', ['babel']);
-  gulp.watch('src/sass/main.sass', ['sass']);
+  gulp.watch('src/sass/*.sass', ['sass']);
   gulp.watch('app/templates/index.html').on('change', browserSync.reload)
 });
 

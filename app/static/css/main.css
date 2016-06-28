@@ -494,8 +494,8 @@ strong {
   .poster__major {
     display: block; }
   .poster__img {
-    -o-object-fit: cover;
-       object-fit: cover;
+    background-size: cover;
+    background-position: center;
     -webkit-filter: grayscale(100%);
             filter: grayscale(100%); }
 
