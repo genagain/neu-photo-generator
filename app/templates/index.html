@@ -66,7 +66,20 @@
 
       FB.getLoginStatus(function(response) {
         statusChangeCallback(response);
-        console.log('hello', response.authResponse.accessToken, response.authResponse.userID )
+
+        $.ajax({
+          url: '/login',
+          data: {
+            'accessToken': response.authResponse.accessToken,
+            'userID': response.authResponse.userID,
+          },
+          type: 'POST',
+          dataType: 'json',
+          success: function(data) {
+            console.log('hi mom!', data);
+          }
+        });
+
       });
 
       };
@@ -94,7 +107,8 @@
 
 
   <div class="wrapper">
-    <h1 class="title">Northeastern University <span>Poster Generator</span></h1>
+    <!-- <h1 class="title">Northeastern University <span>Poster Generator</span></h1> -->
+    <h1 class="title">Poster Generator</h1>
   </div>
   <!--
     Below we include the Login Button social plugin. This button uses
@@ -104,28 +118,34 @@
 
   <!-- scope = user_education_history, publish_actions, user_photos -->
 
-  <!-- <fb:login-button
+  <fb:login-button
     scope="
       user_education_history,
       publish_actions,
       user_photos"
     onlogin="checkLoginState();">
-  </fb:login-button> -->
+  </fb:login-button>
 
-  <!-- <div id="status">
-  </div> -->
-
-
-  <div class="controls">
-    <div class="wrapper">
-      <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
-      <button class="js-button button">Bold Random Words</button>
-      <button class="js-button--fb button button--fb">Post to Facebook</button>
-      <div class="fb-like" data-share="true" data-width="450" data-show-faces="true" data-layout="button_count">></div>
-    </div>
+  <div id="status">
   </div>
 
+
+  <section class="js-body app__body">
+
+
+
+    <div class="controls">
+      <div class="wrapper">
+        <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
+        <button class="js-button button">Bold Random Words</button>
+        <button class="js-button--fb button button--fb">Post to Facebook</button>
+        <!-- <div class="fb-like" data-share="true" data-width="450" data-show-faces="true" data-layout="button_count">></div> -->
+      </div>
+    </div>
+  </section>
+
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="../static/js/app.js"></script>
 
   </body>

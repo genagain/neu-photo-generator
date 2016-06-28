@@ -7,6 +7,8 @@ $white: #f1f1f1
 $fb: #3b5998
 $gray: rgba(144, 148, 156, 0.65)
 
+$md: 70rem
+
 // mixins
 
 =clearfix
@@ -55,16 +57,18 @@ html
 	box-sizing: border-box
 
 body
-	background: darken($red, 6%)
+	background: #777
 	color: $white
 	font-family: 'Helvetica Neue', sans-serif
 	-webkit-font-smoothing: antialiased
 	-moz-osx-font-smoothing: grayscale
+	padding: 0 1.6rem
 	display: flex
 	flex-direction: column
 	align-items: center
 	justify-content: center
-	padding: 0 1.6rem
+
+
 
 strong
 	font-weight: 700
@@ -81,10 +85,21 @@ strong
 		font:
 			weight: 400
 			size: 1.8rem
+	@media (min-width: $md)
+		width: 100vw
+
+.app__body
+	display: flex
+	flex-direction: column
+	align-items: center
+	@media (min-width: $md)
+		flex-direction: row
+
 
 .poster
 	margin: 2rem
 	position: relative
+	display: inline-block
 	box-shadow: 0 0 .4em 0 rgba(0,0,0, .2)
 	&:before, &:after
 		content: ""
@@ -168,16 +183,23 @@ strong
 .controls
 	width: 100vw
 	order: 1
-	background: darken($red, 12%)
+	background: rgba(#ccc, 1)
 	display: flex
 	flex-direction: column
 	align-items: center
+	padding: 0 1.6rem
+	margin: .8rem 0
+	@media (min-width: $md)
+		padding: 0 3.2rem
+		width: 47%
+		margin: 0 3%
+		border-radius: 4px
 
 .wrapper
 	box-sizing: content-box
 	max-width: 60rem
 	width: 100%
-	padding: 2.4rem 1.6rem 1.6rem 1.6rem
+	padding: 2.4rem 1.6rem
 	margin: 0 1.6rem
 
 
@@ -193,12 +215,14 @@ strong
 	transition: background .2s linear
 	&:focus
 		background: #fff
+	@media (min-width: $md)
+		height: 16rem
 
 .button
 	float: left
 	display: block
 	width: 50%
-	margin: .8rem auto 1.1rem auto
+	margin: .8rem auto 0 auto
 	background: $gray
 	border: none
 	color: $white
@@ -222,6 +246,11 @@ strong
 		width: 48.5%
 		&:hover
 			background: lighten($fb, 8%)
+	@media (min-width: $md)
+		width: 100%
 
-.fb-like
-	align-self: flex-start
+		&--fb
+			margin-left: 0
+			width: 100%
+// .fb-like
+// 	align-self: flex-start

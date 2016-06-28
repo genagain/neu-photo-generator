@@ -28,7 +28,8 @@ $.getJSON("../static/js/example_data.json", function (user) {
   '</blockquote>' + '<div class="poster__credit">' + '<span class="poster__name"><strong>' + user.name + '</strong></span>' + '<span class="poster__year">' + user.college.graduation_year + '</span>' + '<span class="poster__major">' + user.college.major + '</span>';
   '</div>' + '</div>' + '</div>' + '</section>' + '</main>';
 
-  $('body').append(template);
+  $('.js-body').append(template);
+  // $('body').append(template);
 
   var img = new Image();
   img.src = user.photo;
