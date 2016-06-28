@@ -40,7 +40,8 @@ $.getJSON("../static/js/example_data.json", (user) => {
       '</section>' +
     '</main>';
 
-  $('body').append(template);
+  $('.js-body').append(template);
+  // $('body').append(template);
 
   let img = new Image();
   img.src = user.photo;
