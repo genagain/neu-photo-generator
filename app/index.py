@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
 
 app = Flask(__name__)
@@ -9,6 +9,7 @@ def home():
 
 @app.route('/auth', methods=['POST'])
 def auth():
+  ipdb.set_trace()
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 if __name__ == '__main__':
