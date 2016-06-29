@@ -30,54 +30,36 @@ $(document).ready(function () {
     '</blockquote>' + '<div class="poster__credit">' + '<span class="poster__name"><strong>' + user.name + '</strong></span>' + '<span class="poster__year">' + user.college.graduation_year + '</span>' + '<span class="poster__major">' + user.college.major + '</span>' + '</div>' + '</div>' + '<div class="poster__column poster__img js-img" style="background-image: url(' + user.photo + ')"></div>' + '</div>' + '</section>' + '</main>';
 
     $('.js-body').append(template);
+  });
 
-    html2canvas(document.querySelector('.js-poster')).then(function (canvas) {
-      $('.js-body').append(canvas);
-    });
+  onBtnEvent('mouseenter', BtnMouseEnter);
+  onBtnEvent('mouseleave', BtnMouseLeave);
+});
+
+var fbPostBtn = $('.js-button--fb');
+
+fbPostBtn.on('click', function () {
+  html2canvas(document.querySelector('.js-poster')).then(function (canvas) {
+    console.log(canvas, 'click!', $('.js-input').val());
+    $('.js-ghost').append(canvas);
+
+    var imgData = document.querySelector('canvas').toDataURL('image/png');
   });
 });
 
-//      .then(function(canvas) {
-//        $('.js-body').append(canvas);
-//        $('canvas').attr('id', 'js-canvasImg');
-//    });
-//
-//
-//    var checkExist = setInterval(function() {
-//      if ( $('#js-canvasImg').length ) {
-//        console.log("Exists!");
-//
-//        function drawImage(imageObj) {
-//   var canvas = document.getElementById('js-canvasImg');
-//   var context = canvas.getContext('2d');
-//   var x = 0;
-//   var y = 0;
-//
-//   context.drawImage(imageObj, x, y);
-//
-//   var imageData = context.getImageData(x, y, imageObj.width, imageObj.height);
-//   var data = imageData.data;
-//
-//   for(var i = 0; i < data.length; i += 4) {
-//     var brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
-//     // red
-//     data[i] = brightness;
-//     // green
-//     data[i + 1] = brightness;
-//     // blue
-//     data[i + 2] = brightness;
-//   }
-//
-//   // overwrite original image
-//   context.putImageData(imageData, x, y);
-// }
-//
-// var imageObj = new Image();
-// imageObj.onload = function() {
-//   drawImage(this);
-// };
-// imageObj.src = user.photo;
-//
-//        clearInterval(checkExist);
-//      }
-//    }, 100); // check every 100ms
+var onBtnEvent = function onBtnEvent(event, callback) {
+  var button = $('.js-button--fb');
+  button.on(event, callback);
+};
+
+var BtnMouseEnter = function BtnMouseEnter(e) {
+  var target = $(e.currentTarget),
+      animation = target.data('hover');
+  target.addClass(animation);
+};
+
+var BtnMouseLeave = function BtnMouseLeave(e) {
+  var target = $(e.currentTarget),
+      animation = target.data('hover');
+  target.removeClass(animation);
+};

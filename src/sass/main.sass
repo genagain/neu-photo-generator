@@ -1,99 +1,67 @@
-@import normalize
-
-// Variables
-
-$red: #cc0000
-$white: #f1f1f1
-$fb: #3b5998
-$gray: rgba(144, 148, 156, 0.65)
-
-$md: 70rem
-
-// mixins
-
-=clearfix
-	&:after, &:before
-		content: " "
-		display: table
-	&:after
-		clear: both
-
-=center($horizontal: true, $vertical: true)
-	position: absolute
-	@if $horizontal and $vertical
-		top: 50%
-		left: 50%
-		transform: translate(-50%, -50%)
-	@else if $horizontal
-		left: 50%
-		transform: translate(-50%, 0)
-	@else if $vertical
-		top: 50%
-		transform: translate(0, -50%)
-
-=position($position, $top, $right, $bottom, $left)
-	position: $position
-	top: $top
-	right: $right
-	bottom: $bottom
-	left: $left
-
-=size($width, $height: $width)
-	width: $width
-	height: $height
-
+@import utils
 // keyframes
-
-
-
-// Base
 
 html
 	font-size: 10px
-	// @media (max-width: 680px)
-
 
 *
 	box-sizing: border-box
 
 body
-	background: #777
-	color: $white
+	background: $white
+	color: #666
 	font-family: 'Helvetica Neue', sans-serif
 	-webkit-font-smoothing: antialiased
 	-moz-osx-font-smoothing: grayscale
-	padding: 0 1.6rem
 	display: flex
 	flex-direction: column
 	align-items: center
-	justify-content: center
-
-
 
 strong
 	font-weight: 700
 
+.header
+	width: 100%
+	height: 4.2rem
+	display: flex
+	align-items: center
+	justify-content: space-between
+	padding: 0 1.6rem
+	margin-bottom: 4.2rem
+	box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)
+
 .title
-	align-self: flex-start
-	margin: 0
+	margin: .8rem 0
+	color: #666
 	font:
-		size: 4rem
+		size: 2.4rem
 		family: Baskerville, serif
 		weight: 300
-	span
-		display: block
-		font:
-			weight: 400
-			size: 1.8rem
+	@media (max-width: 360px)
+		font-size: 1.8rem
+
+.fb-login
+	display: flex
+	align-items: center
+
+.greeting
+	margin-right: .8rem
+	@media (max-width: 360px)
+		font-size: .8rem
+
+.avatar
+	border-radius: 50%
+	+size(32px)
 
 .app__body
 	display: flex
 	flex-direction: column
 	align-items: center
 
-
 .poster
-	margin: 2rem
+	font-size: 1rem
+	color: $white
+	margin: 2em
 	position: relative
 	display: inline-block
 	box-shadow: 0 0 .4em 0 rgba(0,0,0, .2)
@@ -101,22 +69,32 @@ strong
 		content: ""
 		width: 46.8%
 		position: absolute
-		bottom: .3rem
+		bottom: .3em
 		box-shadow: 0 0 .4em .2em rgba(0,0,0, .3)
 		z-index: -1
 
+	@media(max-width: 620px)
+		font-size: .9rem
+		@media(max-width: 580px)
+			font-size: .8rem
+			@media(max-width: 520px)
+				font-size: .7rem
+				@media(max-width: 460px)
+					font-size: .6rem
+					@media(max-width: 400px)
+						font-size: .5rem
+
 	&:before
-		left: 1.4rem
+		left: 1.4em
 		transform: rotate(-2deg)
 
 	&:after
-		right: 1.4rem
+		right: 1.4em
 		transform: rotate(2deg)
 
 	&__content
-		+size(60rem, 42rem)
+		+size(60em, 42em)
 		background: $red
-
 
 	&__column
 		+size(50%, 100%)
@@ -124,36 +102,24 @@ strong
 
 	&__body
 		background: $red
-		padding: 0 3.2rem
+		padding: 0 3.2em
 		display: flex
 		flex-direction: column
 		justify-content: center
-
 
 	&__quote
 		margin: 0
 		padding: 0
 		position: relative
 		font-weight: 300
-		font-size: 3.2rem
-		line-height: 3.4rem
-		letter-spacing: .08rem
-
-
-	// &__quote:before
-	// 	content: '"'
-	// 	position: absolute
-
-	&__quote:before
-		left: -1.5rem
-	&__quote:after
-		display: inline
-
+		font-size: 3.2em
+		line-height: 1.2em
+		letter-spacing: .04em
 
 	&__credit
-		font-size: 1.6rem
-		line-height: 2rem
-		margin-top: 1.2rem
+		font-size: 1.6em
+		line-height: 1.4em
+		margin-top: .8em
 
 	&__name
 		&:after
@@ -176,26 +142,24 @@ strong
 		filter: grayscale(100%)
 
 
-
 // input
 
 .controls
-	width: 100vw
+	width: 100%
 	order: 1
-	background: rgba(#ccc, 1)
+	background: rgba(#ccc, .4)
 	display: flex
 	flex-direction: column
 	align-items: center
-	padding: 0 1.6rem
+	padding: 1.6rem
 	margin: .8rem 0
-	@media (min-width: $md)
-		width: 100%
+	border-radius: 5px
 
 .wrapper
 	box-sizing: content-box
 	max-width: 60rem
 	width: 100%
-	padding: 2.4rem 1.6rem
+	padding: 0 1.6rem
 	margin: 0 1.6rem
 
 
@@ -207,7 +171,7 @@ strong
 	appearance: none
 	outline: none
 	padding: 1rem
-	background: #ddd
+	background: #eee
 	transition: background .2s linear
 	&:focus
 		background: #fff
@@ -234,15 +198,23 @@ strong
 	&:hover
 		background: lighten($gray, 8%)
 		box-shadow: 0 1px 1em .1em rgba(0,0,0, .08)
+	@media(max-width: 400px)
+		width: 100%
 	&--fb
 		background: $fb
 		margin-left: 1.5%
 		width: 48.5%
+		@media(max-width: 400px)
+			width: 100%
+			margin-left: 0
 		&:hover
 			background: lighten($fb, 8%)
 
-		&--fb
-			margin-left: 0
-			width: 100%
-// .fb-like
-// 	align-self: flex-start
+
+// Ghost container to store canvas element
+
+.ghost
+	opacity: 0
+	position: absolute
+	top: 0
+	pointer-events: none

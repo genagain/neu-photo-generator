@@ -9,7 +9,6 @@ def home():
 
 @app.route('/auth', methods=['POST'])
 def auth():
-  ipdb.set_trace()
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 if __name__ == '__main__':
