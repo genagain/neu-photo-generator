@@ -85,15 +85,11 @@ strong
 		font:
 			weight: 400
 			size: 1.8rem
-	@media (min-width: $md)
-		width: 100vw
 
 .app__body
 	display: flex
 	flex-direction: column
 	align-items: center
-	@media (min-width: $md)
-		flex-direction: row
 
 
 .poster
@@ -174,8 +170,11 @@ strong
 		display: block
 
 	&__img
-		object-fit: cover
+		background:
+			size: cover
+			position: center
 		filter: grayscale(100%)
+
 
 
 // input
@@ -190,10 +189,7 @@ strong
 	padding: 0 1.6rem
 	margin: .8rem 0
 	@media (min-width: $md)
-		padding: 0 3.2rem
-		width: 47%
-		margin: 0 3%
-		border-radius: 4px
+		width: 100%
 
 .wrapper
 	box-sizing: content-box
@@ -215,8 +211,6 @@ strong
 	transition: background .2s linear
 	&:focus
 		background: #fff
-	@media (min-width: $md)
-		height: 16rem
 
 .button
 	float: left
@@ -246,8 +240,6 @@ strong
 		width: 48.5%
 		&:hover
 			background: lighten($fb, 8%)
-	@media (min-width: $md)
-		width: 100%
 
 		&--fb
 			margin-left: 0
