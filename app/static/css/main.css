@@ -405,9 +405,6 @@ strong {
     display: block;
     font-weight: 400;
     font-size: 1.8rem; }
-  @media (min-width: 70rem) {
-    .title {
-      width: 100vw; } }
 
 .app__body {
   display: -webkit-box;
@@ -420,12 +417,6 @@ strong {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center; }
-  @media (min-width: 70rem) {
-    .app__body {
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row; } }
 
 .poster {
   margin: 2rem;
@@ -519,10 +510,7 @@ strong {
   margin: .8rem 0; }
   @media (min-width: 70rem) {
     .controls {
-      padding: 0 3.2rem;
-      width: 47%;
-      margin: 0 3%;
-      border-radius: 4px; } }
+      width: 100%; } }
 
 .wrapper {
   box-sizing: content-box;
@@ -546,9 +534,6 @@ strong {
   transition: background .2s linear; }
   .input:focus {
     background: #fff; }
-  @media (min-width: 70rem) {
-    .input {
-      height: 16rem; } }
 
 .button {
   float: left;
@@ -580,9 +565,6 @@ strong {
     width: 48.5%; }
     .button--fb:hover {
       background: #466ab5; }
-  @media (min-width: 70rem) {
-    .button {
+    .button--fb--fb {
+      margin-left: 0;
       width: 100%; }
-      .button--fb {
-        margin-left: 0;
-        width: 100%; } }
