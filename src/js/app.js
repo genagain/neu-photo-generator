@@ -1,51 +1,84 @@
 $(document).ready( () => {
 
-  $.getJSON("../static/js/example_data.json", (user) => {
+  $.getJSON("../static/js/fb_data.json", (user) => {
 
-    $('.js-input').on('keyup', () => {
-      let user_input = $('.js-input').val(),
-                elem = $('.js-quote');
-        elem.html(user_input);
-        return user_input;
-    });
+    var firstName = user.first_name;
+      var fullName = user.name;
+    var avatar = user.picture.data.url;
 
-    $('.js-button').on('click', () => {
-            let elem = $('.js-quote'),
-          user_input = $('.js-input').val();
+    var education = user.education;
+    var college = education.find(isCollege);
 
-            elem.html(user_input);
+    function isCollege(school) {
+      return school.type === "College";
+    }
 
-        let words = user_input.split(' '),
-            index = Math.floor(Math.random() * (words.length - 1)),
-            wordA = words[index],
-            wordB = words[index + 1],
-      randomWords = wordA + ' ' + wordB;
+    var major = college.concentration.reduce(isMajor, []);
+      var fullMajor = major.substr(0, major.length-3);
 
-      elem.html(elem.html().replace(new RegExp( randomWords, 'g' ),'<strong>' + randomWords + '</strong>'));
+    function isMajor(fullMajor, concentration) {
+      var isMinor = concentration.name.includes("Minor" || "minor" || "MINOR");
+      if ( isMinor === false ) {
+        return fullMajor + concentration.name + ' & ';
+      }
+      else {
+        return fullMajor;
+      }
+    }
 
-    });
-
-
-    let template ='<main class="main">' +
-        '<section class="poster">' +
-          '<div class="js-poster poster__content">' +
-            '<div class="poster__column poster__body">' +
-            	'<blockquote class="js-quote poster__quote">' +
-                'Your quote goes here' + // user_input goes here
-            	'</blockquote>' +
-          		'<div class="poster__credit">' +
-          			'<span class="poster__name"><strong>' + user.name + '</strong></span>' +
-          			'<span class="poster__year">' + user.college.graduation_year + '</span>' +
-          			'<span class="poster__major">' + user.college.major + '</span>' +
-          		'</div>' +
-          	'</div>' +
-            '<div class="poster__column poster__img js-img" style="background-image: url(' + user.photo + ')"></div>' +
-          '</div>' +
-        '</section>' +
-      '</main>';
+    var fullYear = college.year.name.split('');
+      var shortYear = fullYear[2] + fullYear[3];
 
 
-    $('.js-body').append(template);
+
+    console.log(
+      JSON.stringify(fullName + ', ' + fullMajor + ', ' + shortYear, null,2)
+    );
+
+    // $('.js-input').on('keyup', () => {
+    //   let user_input = $('.js-input').val(),
+    //             elem = $('.js-quote');
+    //     elem.html(user_input);
+    //     return user_input;
+    // });
+    //
+    // $('.js-button').on('click', () => {
+    //         let elem = $('.js-quote'),
+    //       user_input = $('.js-input').val();
+    //
+    //         elem.html(user_input);
+    //
+    //     let words = user_input.split(' '),
+    //         index = Math.floor(Math.random() * (words.length - 1)),
+    //         wordA = words[index],
+    //         wordB = words[index + 1],
+    //   randomWords = wordA + ' ' + wordB;
+    //
+    //   elem.html(elem.html().replace(new RegExp( randomWords, 'g' ),'<strong>' + randomWords + '</strong>'));
+    //
+    // });
+
+
+    // let template ='<main class="main">' +
+    //     '<section class="poster">' +
+    //       '<div class="js-poster poster__content">' +
+    //         '<div class="poster__column poster__body">' +
+    //         	'<blockquote class="js-quote poster__quote">' +
+    //             'Your quote goes here' + // user_input goes here
+    //         	'</blockquote>' +
+    //       		'<div class="poster__credit">' +
+    //       			'<span class="poster__name"><strong>' + user.name + '</strong></span>' +
+    //       			'<span class="poster__year">' + user.college.graduation_year + '</span>' +
+    //       			'<span class="poster__major">' + user.college.major + '</span>' +
+    //       		'</div>' +
+    //       	'</div>' +
+    //         '<div class="poster__column poster__img js-img" style="background-image: url(' + user.photo + ')"></div>' +
+    //       '</div>' +
+    //     '</section>' +
+    //   '</main>';
+    //
+    //
+    // $('.js-body').append(template);
 
   });
 
@@ -54,9 +87,7 @@ $(document).ready( () => {
 
 
 });
-
-
-
+// end doc ready
 
 let fbPostBtn = $('.js-button--fb');
 

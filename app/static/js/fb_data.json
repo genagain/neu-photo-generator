@@ -1,0 +1,83 @@
+{
+  "first_name": "Mike",
+  "picture": {
+    "data": {
+      "is_silhouette": false,
+      "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13432282_10155026318592178_3628160177812656573_n.jpg?oh=4350d96e3c5cede8114b31d241801d43&oe=57F852B9"
+    }
+  },
+  "education": [
+    {
+      "school": {
+        "id": "105982989433313",
+        "name": "Radnor High School"
+      },
+      "type": "High School",
+      "year": {
+        "id": "118118634930920",
+        "name": "2012"
+      },
+      "id": "10150202962372178"
+    },
+    {
+      "concentration": [
+        {
+          "id": "733921079992853",
+          "name": "Music Industry & Graphic Design"
+        }
+      ],
+      "school": {
+        "id": "369463984811",
+        "name": "Northeastern University"
+      },
+      "type": "College",
+      "year": {
+        "id": "185588044800194",
+        "name": "2017"
+      },
+      "id": "10154577078017178"
+    }
+  ],
+  "name": "Mike Wagz",
+  "albums": {
+    "data": [
+      {
+        "created_time": "2012-08-26T11:31:53+0000",
+        "name": "Instagram Photos",
+        "id": "10151397671027178"
+      },
+      {
+        "created_time": "2010-09-04T00:04:35+0000",
+        "name": "Profile Pictures",
+        "id": "497911272177"
+      },
+      {
+        "created_time": "2010-08-27T17:52:41+0000",
+        "name": "Timeline Photos",
+        "id": "494015952177"
+      },
+      {
+        "created_time": "2011-12-24T04:28:16+0000",
+        "name": "Cover Photos",
+        "id": "10150654348737178"
+      },
+      {
+        "created_time": "2011-02-13T06:23:36+0000",
+        "name": "Mobile Uploads",
+        "id": "10150187309417178"
+      },
+      {
+        "created_time": "2011-03-01T20:06:49+0000",
+        "name": "Jade Ehlers Photography",
+        "id": "10150201519197178"
+      }
+    ],
+    "paging": {
+      "cursors": {
+        "before": "MTAxNTEzOTc2NzEwMjcxNzgZD",
+        "after": "MTAxNTAyMDE1MTkxOTcxNzgZD"
+      }
+    }
+  },
+  "id": "10152840732262178"
+}

@@ -404,7 +404,11 @@ strong {
           justify-content: space-between;
   padding: 0 1.6rem;
   margin-bottom: 4.2rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28); }
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
 
 .title {
   margin: .8rem 0;
@@ -431,9 +435,9 @@ strong {
       font-size: .8rem; } }
 
 .avatar {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px; }
+  border-radius: 3px;
+  width: 24px;
+  height: 24px; }
 
 .app__body {
   display: -webkit-box;

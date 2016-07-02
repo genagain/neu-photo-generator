@@ -21,14 +21,14 @@
           type: 'POST',
           dataType: 'json',
           success: function(data) {
-            console.log(data, accessToken, userID);
+            // console.log(data, accessToken, userID);
           }
         });
       }
 
       function onLogin(response) {
         if (response.status == 'connected') {
-          FB.api('/me?fields=picture,first_name', function(data) {
+          FB.api('/me?fields=first_name,name,picture,education,photos', function(data) {
             var welcomeBlock = document.querySelector('.fb-login');
                 var greeting = '<p class="greeting">Hello, ' + data.first_name + '!</p>';
               var userAvatar = '<img class="avatar" src="' + data.picture.data.url + '" />';
@@ -47,7 +47,7 @@
       function checkLoginState() {
         FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
-            console.log('connected!');
+            // console.log('connected!');
             onLogin(response);
           } else {
             FB.login(function(response) {
