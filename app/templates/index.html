@@ -28,15 +28,101 @@
 
       function onLogin(response) {
         if (response.status == 'connected') {
-          FB.api('/me?fields=first_name,name,picture,education,photos', function(data) {
-            var welcomeBlock = document.querySelector('.fb-login');
-                var greeting = '<p class="greeting">Hello, ' + data.first_name + '!</p>';
-              var userAvatar = '<img class="avatar" src="' + data.picture.data.url + '" />';
+          FB.api('/me?fields=first_name,name,picture,education', function(user) {
+
+          // create welcome block
+          var welcomeBlock = document.querySelector('.fb-login');
+
+            if ( user.hasOwnProperty('first_name') ) {
+              var firstName = user.first_name;
+              var greeting = '<p class="greeting">Hello, ' + firstName + '!</p>';
+            } else if ( firstName === undefined ) {
+              var firstName = '';
+            }
+
+            if ( user.hasOwnProperty('picture') ) {
+              var avatar = user.picture.data.url;
+              var userAvatar = '<img class="avatar" src="' + avatar + '" />';
+            } else if ( avatar === undefined ) {
+              var avatar = '';
+            }
+
+            if ( user.hasOwnProperty('name') ) {
+              var fullName = user.name;
+              var el = $(document.createElement('span'));
+              el.className = 'poster__name';
+              var $posterName = el.html('<strong>' + fullName + ', </strong>');
+              $('.js-credit').append($posterName);
+            } else if ( fullName === undefined ) {
+              var fullName = '';
+            }
+
+            if ( user.hasOwnProperty('education') ) {
+              var education = user.education;
+
+                function isCollege(school) {
+                  return school.type === "College";
+                }
+
+                if ( isCollege ) {
+                  var college = education.find(isCollege);
+
+                  if ( college.hasOwnProperty('year') ) {
+                    var fullYear = college.year.name.split('');
+                    var shortYear = fullYear[2] + fullYear[3];
+                    var el = $(document.createElement('span'));
+                    el.className = 'poster__year';
+                    var $posterYear = el.html("'" + shortYear + ', ');
+                    $('.js-credit').append($posterYear);
+                  } else if ( fullYear  === undefined ) {
+                    var shortYear = '';
+                  }
+
+                  if ( college.hasOwnProperty('concentration') ) {
+
+                    function isMajor(fullMajor, concentration) {
+                      var isMinor = concentration.name.includes("Minor" || "minor" || "MINOR");
+                      if ( isMinor === false ) {
+                        return fullMajor + concentration.name + ' & ';
+                      }
+                      else {
+                        return fullMajor;
+                      }
+                    }
+
+                    var major = college.concentration.reduce(isMajor, []);
+                    var fullMajor = major.substr(0, major.length-3);
+                    var el = $(document.createElement('span'));
+                    el.className = 'poster__major';
+                    var $posterMajor = el.html(fullMajor);
+                    $posterMajor.css('display', 'block')
+                    $('.js-credit').append($posterMajor);
+                  } else if ( major === undefined ) {
+                    var fullMajor = '';
+                  }
+
+                } else {
+                  var fullMajor = '';
+                  var shortYear = '';
+                }
+
+            } else if ( education === undefined ) {
+              var fullMajor = '';
+              var shortYear = '';
+            }
+
             welcomeBlock.innerHTML = greeting + userAvatar;
 
             var accessToken = response.authResponse.accessToken,
                      userID = response.authResponse.userID;
             postUserAuth(accessToken, userID);
+
+            var loaded = function() {
+              $('.js-loader').remove();
+            };
+
+            setTimeout(loaded, 500);
+
           });
         }
       }
@@ -90,6 +176,24 @@
   </header>
 
   <section class="js-body app__body">
+
+<main class="main">
+   <section class="poster">
+     <div class="js-poster poster__content">
+       <div class="poster__column poster__body">
+       	<blockquote class="js-quote poster__quote">
+          Your quote goes here
+        </blockquote>
+     		<div class="js-credit poster__credit">
+
+     		</div>
+     	</div>
+       <div class="poster__column poster__img js-img"></div>
+     </div>
+   </section>
+ </main>
+
+
     <div class="controls">
       <div class="wrapper">
         <textarea class="js-input input" rows="3" placeholder="Enter your quote here"></textarea>
@@ -103,6 +207,16 @@
   </section>
 
   <div class="ghost js-ghost"></div>
+
+  <div class="js-loader overlay">
+    <div class="loader">
+      <div class="loader-wrapper">
+        <span class="loader-dot"></span>
+        <span class="loader-dot"></span>
+        <span class="loader-dot"></span>
+      </div>
+    </div>
+  </div>
 
     <script src="../static/js/es6-promise.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>

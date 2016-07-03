@@ -122,17 +122,6 @@ strong
 		line-height: 1.4em
 		margin-top: .8em
 
-	&__name
-		&:after
-			content: ","
-			font-weight: 700
-
-	&__year
-		&:before
-			content: "'"
-		&:after
-			content: ","
-
 	&__major
 		display: block
 
@@ -219,3 +208,34 @@ strong
 	position: absolute
 	top: 0
 	pointer-events: none
+
+
+.overlay
+	+position(absolute, 0, 0, 0, 0)
+	background: $white
+
+.loader
+	position: relative
+	+size(12rem, 6rem)
+	+center
+
+.loader-wrapper
+	width: 100%
+	text-align: center
+	+center
+
+.loader-dot
+	+size(1rem)
+	display: inline-block
+	background: $red
+	border-radius: 100%
+	margin: .5em
+	transform: scale(1)
+
+	@for $i from 1 through 3
+		&:nth-child(#{$i})
+			animation: scaleUp .6s ease-out .12s * $i infinite
+
+@keyframes scaleUp
+	20%
+		transform: scale(1.6)
