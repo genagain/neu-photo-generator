@@ -29,6 +29,7 @@ strong
 	padding: 0 1.6rem
 	margin-bottom: 4.2rem
 	box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)
+	user-select: none
 
 .title
 	margin: .8rem 0
@@ -50,8 +51,8 @@ strong
 		font-size: .8rem
 
 .avatar
-	border-radius: 50%
-	+size(32px)
+	border-radius: 3px
+	+size(24px)
 
 .app__body
 	display: flex
@@ -120,17 +121,6 @@ strong
 		font-size: 1.6em
 		line-height: 1.4em
 		margin-top: .8em
-
-	&__name
-		&:after
-			content: ","
-			font-weight: 700
-
-	&__year
-		&:before
-			content: "'"
-		&:after
-			content: ","
 
 	&__major
 		display: block
@@ -218,3 +208,34 @@ strong
 	position: absolute
 	top: 0
 	pointer-events: none
+
+
+.overlay
+	+position(absolute, 0, 0, 0, 0)
+	background: $white
+
+.loader
+	position: relative
+	+size(12rem, 6rem)
+	+center
+
+.loader-wrapper
+	width: 100%
+	text-align: center
+	+center
+
+.loader-dot
+	+size(1rem)
+	display: inline-block
+	background: $red
+	border-radius: 100%
+	margin: .5em
+	transform: scale(1)
+
+	@for $i from 1 through 3
+		&:nth-child(#{$i})
+			animation: scaleUp .6s ease-out .12s * $i infinite
+
+@keyframes scaleUp
+	20%
+		transform: scale(1.6)
