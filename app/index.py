@@ -29,6 +29,7 @@ def auth():
     albums = graph.get_connections(id=user_id,connection_name='albums')
     testing.write('user' + str(user))
     testing.write('album' + str(albums))
+    testing.close()
     profile_album_id = [album for album in albums['data'] if album['name'] == 'Profile Pictures'][0]['id']
     profile_picture_object = graph.get_object(id=profile_album_id,fields='cover_photo')
     profile_picture_id = profile_picture_object['cover_photo']['id']
