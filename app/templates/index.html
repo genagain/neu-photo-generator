@@ -30,6 +30,11 @@
         if (response.status == 'connected') {
           FB.api('/me?fields=first_name,name,picture,education', function(user) {
 
+          // POST Facebook accessToken and userID
+          var accessToken = response.authResponse.accessToken,
+                   userID = response.authResponse.userID;
+          postUserAuth(accessToken, userID);
+
           // create welcome block
           var welcomeBlock = document.querySelector('.fb-login');
 
@@ -47,12 +52,14 @@
               var avatar = '';
             }
 
+            var credit = {};
+            var getProp = function(prop, val) {
+              credit[prop] = val;
+            }
+
             if ( user.hasOwnProperty('name') ) {
-              var fullName = user.name;
-              var el = $(document.createElement('span'));
-              el.className = 'poster__name';
-              var $posterName = el.html('<strong>' + fullName + ', </strong>');
-              $('.js-credit').append($posterName);
+              var fullName = '<span class="poster__name"><strong>' + user.name + '</strong></span>';
+              getProp("fullName", fullName);
             } else if ( fullName === undefined ) {
               var fullName = '';
             }
@@ -69,11 +76,8 @@
 
                   if ( college.hasOwnProperty('year') ) {
                     var fullYear = college.year.name.split('');
-                    var shortYear = fullYear[2] + fullYear[3];
-                    var el = $(document.createElement('span'));
-                    el.className = 'poster__year';
-                    var $posterYear = el.html("'" + shortYear + ', ');
-                    $('.js-credit').append($posterYear);
+                    var shortYear = '<span class="poster__year">' + "'" + fullYear[2] + fullYear[3] + '</span>';
+                    getProp("shortYear", shortYear);
                   } else if ( fullYear  === undefined ) {
                     var shortYear = '';
                   }
@@ -91,12 +95,8 @@
                     }
 
                     var major = college.concentration.reduce(isMajor, []);
-                    var fullMajor = major.substr(0, major.length-3);
-                    var el = $(document.createElement('span'));
-                    el.className = 'poster__major';
-                    var $posterMajor = el.html(fullMajor);
-                    $posterMajor.css('display', 'block')
-                    $('.js-credit').append($posterMajor);
+                    var fullMajor = '<span class="poster__major">' + major.substr(0, major.length-3) + '</span>';
+                    getProp("fullMajor", fullMajor);
                   } else if ( major === undefined ) {
                     var fullMajor = '';
                   }
@@ -106,6 +106,17 @@
                   var shortYear = '';
                 }
 
+                var values = []
+                for ( key in credit ) {
+                  if ( credit.hasOwnProperty(key) ) {
+                    var value = credit[key];
+                    values.push(value)
+                  }
+                }
+
+                $credit = values.join(', ');
+                $('.js-credit').html($credit);
+
             } else if ( education === undefined ) {
               var fullMajor = '';
               var shortYear = '';
@@ -113,15 +124,11 @@
 
             welcomeBlock.innerHTML = greeting + userAvatar;
 
-            var accessToken = response.authResponse.accessToken,
-                     userID = response.authResponse.userID;
-            postUserAuth(accessToken, userID);
-
             var loaded = function() {
               $('.js-loader').remove();
             };
 
-            setTimeout(loaded, 500);
+            setTimeout(loaded, 400);
 
           });
         }
