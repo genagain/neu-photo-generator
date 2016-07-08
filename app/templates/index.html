@@ -106,17 +106,6 @@
                   var shortYear = '';
                 }
 
-                var values = []
-                for ( key in credit ) {
-                  if ( credit.hasOwnProperty(key) ) {
-                    var value = credit[key];
-                    values.push(value)
-                  }
-                }
-
-                $credit = values.join(', ');
-                $('.js-credit').html($credit);
-
             } else if ( education === undefined ) {
               var fullMajor = '';
               var shortYear = '';
@@ -127,6 +116,17 @@
             var loaded = function() {
               $('.js-loader').remove();
             };
+
+            var values = []
+            for ( key in credit ) {
+              if ( credit.hasOwnProperty(key) ) {
+                var value = credit[key];
+                values.push(value)
+              }
+            }
+
+            $credit = values.join(', ');
+            $('.js-credit').html($credit);
 
             setTimeout(loaded, 400);
 

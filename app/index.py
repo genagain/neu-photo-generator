@@ -3,7 +3,6 @@ import urllib
 import redis
 import json
 import facebook
-import ipdb
 import uuid
 from PIL import Image
 
@@ -38,7 +37,7 @@ def auth():
       if picture['width'] > max_width:
         max_width = picture['width']
         profile_picture = picture
-       
+
     file_name = user['name'] + '.jpg'
     urllib.urlretrieve(profile_picture['source'], file_name)
     img = Image.open(file_name).convert('L')
