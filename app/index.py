@@ -1,13 +1,19 @@
 from flask import Flask, render_template, request, jsonify, session
-#from flask.ext.session import Session
 import urllib
+import redis
 import json
 import facebook
 import ipdb
+import uuid
 from PIL import Image
 
+SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
+SESSION_COOKIE_SECURE = False
+
 app = Flask(__name__)
-#sess = Session()
+app.config.from_object(__name__)
+
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 @app.route('/', methods=['GET','POST'])
 def home():
@@ -38,18 +44,12 @@ def auth():
     img = Image.open(file_name).convert('L')
     gs_file = 'gs-' + file_name
     img.save(gs_file)
-
+    r.set('test_file', gs_file)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
   else:
-    ipdb.set_trace()
+    gs_file = r.get('test_file')
     return jsonify(gs_prof_pic=gs_file)
 
-app.secret_key = '\x074\xa3\xfb\xce:\xdb?\x04\x07E\xa3?]\x0b\x88\x85\x9b\n\xcd\xa5\x14\xd4e'
 
 if __name__ == '__main__':
-  #app.config['SESSION_TYPE'] = 'filesystem'
-  #app.config['APPLICATION_ROOT']='/Users/Gen/projects/neu-photo-generator'
-  #app.config['SESSION_COOKIE_PATH']='/Users/Gen/projects/neu-photo-generator'
-  #app.config['SESSION_COOKIE_SECURE']=True
-  app.config['SESSION_COOKIE_HTTPONLY']=False
   app.run(debug=True, port=5003)
