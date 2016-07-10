@@ -4,7 +4,6 @@ import redis
 import json
 import facebook
 import uuid
-import ipdb
 from PIL import Image
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
