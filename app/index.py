@@ -4,6 +4,7 @@ import redis
 import json
 import facebook
 import uuid
+import os
 from PIL import Image
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
@@ -12,10 +13,8 @@ SESSION_COOKIE_SECURE = False
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-if app.config['DEBUG']:
-  r = redis.StrictRedis(host='localhost', port=6379, db=0)
-else:
-  r = redis.StrictRedis(host='redis://h:pd73vs484veh7a76eusdq0t7coa@ec2-54-243-217-112.compute-1.amazonaws.com', port=19739, db=0)
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis = redis.from_url(redis_url)
 
 @app.route('/', methods=['GET','POST'])
 def home():
@@ -50,10 +49,10 @@ def auth():
     img = Image.open(file_name).convert('L')
     gs_file = 'gs-' + file_name
     img.save(gs_file)
-    r.set('test_file', gs_file)
+    redis.set('test_file', gs_file)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
   else:
-    gs_file = r.get('test_file')
+    gs_file = redis.get('test_file')
     return jsonify(gs_prof_pic=gs_file)
 
 
