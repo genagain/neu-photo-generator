@@ -4,6 +4,7 @@ import redis
 import json
 import facebook
 import uuid
+import ipdb
 from PIL import Image
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
@@ -12,7 +13,10 @@ SESSION_COOKIE_SECURE = False
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
+if app.config['DEBUG']:
+  r = redis.StrictRedis(host='localhost', port=6379, db=0)
+else:
+  r = redis.StrictRedis(host='redis://h:pd73vs484veh7a76eusdq0t7coa@ec2-54-243-217-112.compute-1.amazonaws.com', port=19739, db=0)
 
 @app.route('/', methods=['GET','POST'])
 def home():
