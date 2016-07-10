@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session
-import urllib
+import urllib.request
 import redis
 import json
 import facebook
@@ -46,7 +46,7 @@ def auth():
         profile_picture = picture
 
     file_name = user['name'] + '.jpg'
-    urllib.urlretrieve(profile_picture['source'], file_name)
+    urllib.request.urlretrieve(profile_picture['source'], file_name)
     img = Image.open(file_name).convert('L')
     gs_file = 'gs-' + file_name
     img.save(gs_file)
