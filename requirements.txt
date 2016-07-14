@@ -12,4 +12,3 @@ Werkzeug==0.11.10
 gunicorn==19.6.0
 Pillow==3.3.0
 redis==2.10.5
-requests==2.9.1
