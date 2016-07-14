@@ -3,9 +3,12 @@ import requests
 import redis
 import json
 import facebook
-from StringIO import StringIO
 import os
 from PIL import Image
+try:
+  from StringIO import StringIO
+except ImportError:
+  from io import StringIO
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
 SESSION_COOKIE_SECURE = False
