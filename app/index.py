@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, send_file
+from flask import Flask, render_template, request, send_file
 import requests
 import redis
 import json
