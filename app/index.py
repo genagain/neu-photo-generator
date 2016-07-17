@@ -6,9 +6,9 @@ import facebook
 import os
 from PIL import Image
 try:
-  from StringIO import StringIO, BytesIO
+  from StringIO import BytesIO
 except ImportError:
-  from io import StringIO, BytesIO
+  from io import BytesIO
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
 SESSION_COOKIE_SECURE = False
