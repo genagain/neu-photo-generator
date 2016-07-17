@@ -50,7 +50,7 @@ def store(redis, gs_file, buffer_image):
 
 @app.route('/', methods=['GET','POST'])
 def home():
-    return render_template('index.html')
+  return render_template('index.html')
 
 @app.route('/auth', methods=['POST'])
 def auth():
