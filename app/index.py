@@ -44,6 +44,11 @@ def to_greyscale(profile_picture):
   buffer_image.seek(0)
   return buffer_image
 
+def store(redis, gs_file, buffer_image):
+  redis.set(gs_file, buffer_image.getvalue())
+  three_hours = 60*60*3
+  return redis.expire(gs_file, three_hours)
+
 @app.route('/', methods=['GET','POST'])
 def home():
     return render_template('index.html')
@@ -58,9 +63,7 @@ def auth():
   profile_picture = largest_img(profile_pictures)
   gs_file = 'gs-' + user['name'].replace(" ", "") + '.jpg'
   buffer_image = to_greyscale(profile_picture)
-  redis.set(gs_file, buffer_image.getvalue())
-  three_hours = 60*60*3
-  redis.expire(gs_file, three_hours)
+  store(redis, gs_file, buffer_image)
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route('/images/<filename>', methods=['GET'])
