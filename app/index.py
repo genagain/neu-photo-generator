@@ -53,7 +53,7 @@ def auth():
   redis.expire(gs_file, three_hours)
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
-@app.route('/image/<filename>', methods=['GET'])
+@app.route('/images/<filename>', methods=['GET'])
 def image(filename):
     gs_file_string = redis.get(filename)
     gs_image = BytesIO(gs_file_string)
