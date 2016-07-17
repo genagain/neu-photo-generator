@@ -58,6 +58,10 @@
             }
 
             if ( user.hasOwnProperty('name') ) {
+              var $imgEl = $('.js-img');
+              var nameString = user.name.split(' ').join('');
+              var imgSrc = '/images/gs-' + nameString + '.jpg';
+              $imgEl.css('background-image', 'url(' + imgSrc + ')');
               var fullName = '<span class="poster__name"><strong>' + user.name + '</strong></span>';
               getProp("fullName", fullName);
             } else if ( fullName === undefined ) {
@@ -242,7 +246,6 @@
           var targetEl = $('.js-poster');
           var x = targetEl.offset().left * 2;
           var y = targetEl.offset().top * 2;
-          console.log(x,y);
           // create canvas element and set dimensions @2x
           var canvas = document.createElement('canvas');
           canvas.width = w*2;
@@ -256,7 +259,6 @@
           // html2canvas API
           html2canvas(targetEl, { canvas: canvas })
             .then(function(canvas) {
-              // console.log(canvas)
               $('.js-ghost').append(canvas);
 
               // var data = $('canvas')[0].toDataURL("image/png");
