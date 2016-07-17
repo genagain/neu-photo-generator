@@ -6,9 +6,9 @@ import facebook
 import os
 from PIL import Image
 try:
-  from StringIO import StringIO
+  from StringIO import StringIO, BytesIO
 except ImportError:
-  from io import StringIO
+  from io import StringIO, BytesIO
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
 SESSION_COOKIE_SECURE = False
@@ -44,8 +44,8 @@ def auth():
 
   gs_file = 'gs-' + user['name'].replace(" ", "") + '.jpg'
   response = requests.get(profile_picture['source'])
-  gs_image = Image.open(StringIO(response.content)).convert('L')
-  buffer_image = StringIO()
+  gs_image = Image.open(BytesIO(response.content)).convert('L')
+  buffer_image = BytesIO()
   gs_image.save(buffer_image, 'JPEG', quality=90)
   buffer_image.seek(0)
   redis.set(gs_file, buffer_image.getvalue())
@@ -56,7 +56,7 @@ def auth():
 @app.route('/image/<filename>', methods=['GET'])
 def image(filename):
     gs_file_string = redis.get(filename)
-    gs_image = StringIO(gs_file_string)
+    gs_image = BytesIO(gs_file_string)
     return send_file(gs_image, mimetype='image/jpeg')
 
 if __name__ == '__main__':
