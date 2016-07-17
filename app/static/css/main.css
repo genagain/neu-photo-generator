@@ -404,7 +404,7 @@ strong {
           justify-content: space-between;
   padding: 0 1.6rem;
   margin-bottom: 4.2rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.14);
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -611,13 +611,13 @@ strong {
       background: #466ab5; }
 
 .ghost {
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   top: 0;
-  pointer-events: none; }
+  pointer-events: auto; }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;

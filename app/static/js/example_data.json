@@ -1,9 +1,0 @@
-{
-  "name":"Mike Wagenheim",
-  "photo": "../static/img/img.jpg",
-  "college": {
-    "name": "Northeastern University",
-    "major": "Graphic & Information Design",
-    "graduation_year": "17"
-  }
-}
