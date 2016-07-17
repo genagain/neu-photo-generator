@@ -36,6 +36,14 @@ def largest_img(profile_pictures):
       profile_picture = picture
   return profile_picture
 
+def to_greyscale(profile_picture):
+  response = requests.get(profile_picture['source'])
+  gs_image = Image.open(BytesIO(response.content)).convert('L')
+  buffer_image = BytesIO()
+  gs_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  return buffer_image
+
 @app.route('/', methods=['GET','POST'])
 def home():
     return render_template('index.html')
@@ -49,11 +57,7 @@ def auth():
   profile_pictures = get_prof_pics(graph, user_id)
   profile_picture = largest_img(profile_pictures)
   gs_file = 'gs-' + user['name'].replace(" ", "") + '.jpg'
-  response = requests.get(profile_picture['source'])
-  gs_image = Image.open(BytesIO(response.content)).convert('L')
-  buffer_image = BytesIO()
-  gs_image.save(buffer_image, 'JPEG', quality=90)
-  buffer_image.seek(0)
+  buffer_image = to_greyscale(profile_picture)
   redis.set(gs_file, buffer_image.getvalue())
   three_hours = 60*60*3
   redis.expire(gs_file, three_hours)
