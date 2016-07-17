@@ -11,7 +11,6 @@ except ImportError:
   from io import BytesIO
 
 SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
-SESSION_COOKIE_SECURE = False
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -68,9 +67,9 @@ def auth():
 
 @app.route('/images/<filename>', methods=['GET'])
 def image(filename):
-    gs_file_string = redis.get(filename)
-    gs_image = BytesIO(gs_file_string)
-    return send_file(gs_image, mimetype='image/jpeg')
+  gs_file_string = redis.get(filename)
+  gs_image = BytesIO(gs_file_string)
+  return send_file(gs_image, mimetype='image/jpeg')
 
 if __name__ == '__main__':
   app.run(debug=True, port=5003)
