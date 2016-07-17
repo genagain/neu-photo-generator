@@ -58,6 +58,10 @@
             }
 
             if ( user.hasOwnProperty('name') ) {
+              var $imgEl = $('.js-img');
+              var nameString = user.name.split(' ').join('');
+              var imgSrc = '/images/gs-' + nameString + '.jpg';
+              $imgEl.css('background-image', 'url(' + imgSrc + ')');
               var fullName = '<span class="poster__name"><strong>' + user.name + '</strong></span>';
               getProp("fullName", fullName);
             } else if ( fullName === undefined ) {
