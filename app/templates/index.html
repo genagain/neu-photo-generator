@@ -257,7 +257,10 @@
           context.scale(2,2);
 
           // html2canvas API
-          html2canvas(targetEl, { canvas: canvas })
+          html2canvas(targetEl, {
+            canvas: canvas,
+            allowTaint: true 
+          })
             .then(function(canvas) {
               $('.js-ghost').append(canvas);
 
