@@ -4,7 +4,7 @@ import redis
 import json
 import facebook
 import os
-from flask_ssilfy import SSLify
+from flask_sslify import SSLify
 from PIL import Image
 try:
   from StringIO import BytesIO
