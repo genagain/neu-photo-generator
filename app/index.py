@@ -4,6 +4,7 @@ import redis
 import json
 import facebook
 import os
+from flask_sslify import SSLify
 from PIL import Image
 try:
   from StringIO import BytesIO
@@ -14,6 +15,7 @@ SECRET_KEY = 'a537f276-af8c-485f-bc13-9c54872989c9'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+ssify = SSLify(app)
 
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 redis = redis.from_url(redis_url)
