@@ -73,14 +73,14 @@
                     class: 'poster__img'
                   });
                 });
-                $downloadingImage.attr('src', 'images/gs-' + nameString + '.jpg');
-
               } else {
                 $image.attr({
-                  src: $(this).attr('src'),
+                  src: $downloadingImage.attr('src'),
                   class: 'poster__img'
                 });
               }
+
+              $downloadingImage.attr('src', 'images/gs-' + nameString + '.jpg');
 
             }
 
