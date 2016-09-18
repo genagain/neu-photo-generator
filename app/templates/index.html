@@ -7,6 +7,9 @@
 
   <link rel="stylesheet" href="../static/css/main.css">
 
+  <script src="../static/js/es6-promise.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
 </head>
   <body>
 
@@ -19,10 +22,10 @@
             'userID': userID,
           },
           type: 'POST',
-          dataType: 'json',
-          success: function(data) {
-            // console.log(data, accessToken, userID);
-          }
+          dataType: 'json'
+          // success: function(data) {
+          //   // console.log(data, accessToken, userID);
+          // }
         });
       }
 
@@ -57,13 +60,33 @@
               credit[prop] = val;
             }
 
-            if ( user.hasOwnProperty('name') ) {
-              var $imgEl = $('.js-img');
+            function getProcessedImage(name) {
               var nameString = user.name.split(' ').join('');
-              var imgSrc = '/images/gs-' + nameString + '.jpg';
-              $imgEl.css('background-image', 'url(' + imgSrc + ')');
-              var fullName = '<span class="poster__name"><strong>' + user.name + '</strong></span>';
+              var $image = $('.js-img__preload');
+              var $downloadingImage = $('<img>');
+
+              $downloadingImage.load(function() {
+
+                $image.attr({
+                  src: $(this).attr('src'),
+                  class: 'poster__img'
+                });
+
+              });
+
+              $downloadingImage.attr('src', 'images/gs-' + nameString + '.jpg');
+
+            }
+
+            if ( user.hasOwnProperty('name') ) {
+              // var $imgEl = $('.js-img');
+              // var nameString = user.name.split(' ').join('');
+              // var imgSrc = 'http://neu-photo-generator.herokuapp.com/images/gs-' + nameString + '.jpg';
+              // $imgEl.css('background-image', 'url(' + imgSrc + ')');
+              var userName = user.name;
+              var fullName = '<span class="poster__name"><strong>' + userName + '</strong></span>';
               getProp("fullName", fullName);
+              getProcessedImage(userName);
             } else if ( fullName === undefined ) {
               var fullName = '';
             }
@@ -154,76 +177,6 @@
         });
       }
 
-      function dataURItoBlob(dataURI) {
-        var byteString = atob(dataURI.split(',')[1]);
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], {type: 'image/png'});
-      }
-
-      function postImageToFacebook(token, filename, mimeType, imageData, message) {
-        var fd = new FormData();
-        fd.append("access_token", token);
-        fd.append("source", imageData);
-        fd.append("no_story", true);
-
-        // Upload image to facebook without story(post to feed)
-        $.ajax({
-          url: "https://graph.facebook.com/me/photos?access_token=" + token,
-          type: "POST",
-          data: fd,
-          processData: false,
-          contentType: false,
-          cache: false,
-          success: function (data) {
-            console.log("success: ", data);
-
-            // Get image source url
-            FB.api(
-              "/" + data.id + "?fields=images",
-              function (response) {
-                if (response && !response.error) {
-                  //console.log(response.images[0].source);
-
-                  // Create facebook post using image
-                  FB.api(
-                    "/me/feed",
-                    "POST",
-                    {
-                      "message": "",
-                      "picture": response.images[0].source,
-                      "link": window.location.href,
-                      "name": 'Look at the cute panda!',
-                      "description": message,
-                      "privacy": {
-                          value: 'SELF'
-                      }
-                    },
-                    function (response) {
-                      if (response && !response.error) {
-                        /* handle the result */
-                        console.log("Posted story to facebook");
-                        console.log(response);
-                      }
-                    }
-                  );
-                }
-              }
-            );
-          },
-          error: function (shr, status, data) {
-            console.log("error " + data + " Status " + shr.status);
-          },
-          complete: function (data) {
-            //console.log('Post to facebook Complete');
-          }
-        });
-      }
-
-
       window.fbAsyncInit = function() {
       FB.init({
         appId      : '1614913708820945',
@@ -257,30 +210,27 @@
           context.scale(2,2);
 
           // html2canvas API
-          html2canvas(targetEl, { canvas: canvas })
+          html2canvas(targetEl, {
+            canvas: canvas,
+            allowTaint: true
+          })
             .then(function(canvas) {
               $('.js-ghost').append(canvas);
 
-              // var data = $('canvas')[0].toDataURL("image/png");
-              // try {
-              //   blob = dataURItoBlob(data);
-              // } catch (e) {
-              //   console.log(e);
-              // }
-              // FB.getLoginStatus(function (response) {
-              //   console.log(response);
-              //   if (response.status === "connected") {
-              //     postImageToFacebook(response.authResponse.accessToken, "Created with Poster Generator - ", "image/png", blob, window.location.href);
-              //   } else if (response.status === "not_authorized") {
-              //     FB.login(function (response) {
-              //       postImageToFacebook(response.authResponse.accessToken, "Created with Poster Generator - ", "image/png", blob, window.location.href);
-              //     }, {scope: "publish_actions"});
-              //   } else {
-              //     FB.login(function (response) {
-              //       postImageToFacebook(response.authResponse.accessToken, "Created with Poster Generator - ", "image/png", blob, window.location.href);
-              //     }, {scope: "publish_actions"});
-              //   }
-              // });
+              var $canvas = $('canvas')[0];
+              var data = $canvas.toDataURL("image/png");
+
+              console.log(data);
+
+              $.ajax ({
+                url: '/poster',
+                data: data,
+                type: 'POST',
+                dataType: 'string'
+                success: function(data) {
+                  // console.log(data);
+                }
+              });
 
           });
         });
@@ -318,7 +268,9 @@
 
      		</div>
      	</div>
-       <div class="poster__column poster__img js-img"></div>
+      <div class="poster__column js-img">
+        <img class="js-img__preload" src="../static/img/clear.jpg" alt="" />
+      </div>
      </div>
    </section>
  </main>
@@ -348,8 +300,7 @@
     </div>
   </div>
 
-    <script src="../static/js/es6-promise.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
     <script src="../static/js/html2canvas.js"></script>
     <script src="../static/js/app.js"></script>
 
