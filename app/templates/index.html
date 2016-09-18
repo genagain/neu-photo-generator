@@ -65,16 +65,22 @@
               var $image = $('.js-img__preload');
               var $downloadingImage = $('<img>');
 
-              $downloadingImage.load(function() {
 
+              if (!$downloadingImage.complete) {
+                $downloadingImage.load(function() {
+                  $image.attr({
+                    src: $(this).attr('src'),
+                    class: 'poster__img'
+                  });
+                });
+                $downloadingImage.attr('src', 'images/gs-' + nameString + '.jpg');
+
+              } else {
                 $image.attr({
                   src: $(this).attr('src'),
                   class: 'poster__img'
                 });
-
-              });
-
-              $downloadingImage.attr('src', 'images/gs-' + nameString + '.jpg');
+              }
 
             }
 
