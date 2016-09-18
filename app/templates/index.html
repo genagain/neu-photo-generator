@@ -220,17 +220,17 @@
               var $canvas = $('canvas')[0];
               var data = $canvas.toDataURL("image/png");
 
-              console.log(data);
-
-              $.ajax ({
-                url: '/poster',
-                data: data,
-                type: 'POST',
-                dataType: 'string'
-                success: function(data) {
-                  // console.log(data);
-                }
-              });
+              // console.log(data);
+              //
+              // $.ajax ({
+              //   url: '/poster',
+              //   data: data,
+              //   type: 'POST',
+              //   dataType: 'string',
+              //   success: function(data) {
+              //     console.log(data);
+              //   }
+              // });
 
           });
         });
