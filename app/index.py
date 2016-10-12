@@ -45,10 +45,10 @@ def to_greyscale(profile_picture):
   buffer_image.seek(0)
   return buffer_image
 
-def store(redis, gs_file, buffer_image):
-  redis.set(gs_file, buffer_image.getvalue())
+def store(redis, key, buffer_image):
+  redis.set(key, buffer_image.getvalue())
   three_hours = 60*60*3
-  return redis.expire(gs_file, three_hours)
+  return redis.expire(key, three_hours)
 
 @app.route('/', methods=['GET','POST'])
 def home():
@@ -72,6 +72,32 @@ def image(filename):
   gs_file_string = redis.get(filename)
   gs_image = BytesIO(gs_file_string)
   return send_file(gs_image, mimetype='image/jpeg')
+
+@app.route('/posters', methods=['POST'])
+def save_poster():
+  buffer_image.seek(0)
+  base64image = request.form['image']
+  name = request.form['name']
+  poster_image = BytesIO(base64image)
+  poster_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  store(redis, name, buffer_image)
+  return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+@app.route('/posters/<name_base64>', methods=['GET'])
+def render_poster():
+  # TODO: Parse for name and base64 Image
+  ipdb.set_trace()
+  poster_string = redis.get(name)
+  poster_image = BytesIO(poster_string)
+  return send_file(poster_image, mimetype='image/jpeg')
+
+@app.route('/<name_base64>', methods=['GET'])
+def personalized():
+  # TODO: Parse for name 
+  # TODO: Get image url using url
+  # TODO: Pass name and image link to template
+  return render_template('poster.html', )
 
 if __name__ == '__main__':
   app.run(debug=True, port=5003)
