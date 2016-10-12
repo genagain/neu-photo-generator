@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, Response
 import re
 import base64
 import requests
@@ -73,8 +73,11 @@ def auth():
 @app.route('/images/<filename>', methods=['GET'])
 def image(filename):
   gs_file_string = redis.get(filename)
-  gs_image = BytesIO(gs_file_string)
-  return send_file(gs_image, mimetype='image/jpeg')
+  buffer_image = BytesIO()
+  gs_image = Image.open(BytesIO(gs_file_string))
+  gs_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  return Response(buffer_image.getvalue(), mimetype='image/jpeg')
 
 @app.route('/posters', methods=['POST'])
 def save_poster():
@@ -90,16 +93,19 @@ def save_poster():
   store(redis, name, buffer_image)
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
-@app.route('/posters/<name_base64>', methods=['GET'])
-def render_poster():
+@app.route('/posters/<name_image>', methods=['GET'])
+def render_poster(name_image):
   # TODO: Parse for name and base64 Image
-  ipdb.set_trace()
+  name = name_image.split('-')[0]
   poster_string = redis.get(name)
-  poster_image = BytesIO(poster_string)
-  return send_file(poster_image, mimetype='image/jpeg')
+  buffer_image = BytesIO()
+  poster_image = Image.open(BytesIO(poster_string))
+  poster_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  return Response(buffer_image.getvalue(), mimetype='image/jpeg')
 
-@app.route('/<name_base64>', methods=['GET'])
-def personalized():
+@app.route('/<name_image>', methods=['GET'])
+def personalized(name_image):
   # TODO: Parse for name 
   # TODO: Get image url using url
   # TODO: Pass name and image link to template
