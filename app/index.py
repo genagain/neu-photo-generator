@@ -84,7 +84,6 @@ def save_poster():
   name = request.form['name']
   base64image = re.sub('data:image/png;base64,','',str(base64image))
   base64image = re.sub('\n','',base64image)
-  ipdb.set_trace()
   poster_image = Image.open(BytesIO(base64.b64decode(base64image)))
   poster_image.save(buffer_image, 'JPEG', quality=90)
   buffer_image.seek(0)
