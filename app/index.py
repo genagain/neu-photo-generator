@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, send_file
+import re
+import base64
 import requests
 import redis
 import json
+import ipdb
 import facebook
 import os
 from flask_sslify import SSLify
@@ -75,10 +78,14 @@ def image(filename):
 
 @app.route('/posters', methods=['POST'])
 def save_poster():
+  buffer_image = BytesIO()
   buffer_image.seek(0)
   base64image = request.form['image']
   name = request.form['name']
-  poster_image = BytesIO(base64image)
+  base64image = re.sub('data:image/png;base64,','',str(base64image))
+  base64image = re.sub('\n','',base64image)
+  ipdb.set_trace()
+  poster_image = Image.open(BytesIO(base64.b64decode(base64image)))
   poster_image.save(buffer_image, 'JPEG', quality=90)
   buffer_image.seek(0)
   store(redis, name, buffer_image)
