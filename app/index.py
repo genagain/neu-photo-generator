@@ -106,10 +106,11 @@ def render_poster(name_image):
 
 @app.route('/<name_image>', methods=['GET'])
 def personalized(name_image):
-  # TODO: Parse for name 
-  # TODO: Get image url using url
-  # TODO: Pass name and image link to template
-  return render_template('poster.html', )
+  saved_poster = '/posters/' + name_image
+  full_name = request.args['fullName']
+  short_year = request.args['shortYear']
+  full_major = request.args['fullMajor']
+  return render_template('template.html', **locals())
 
 if __name__ == '__main__':
   app.run(debug=True, port=5003)
