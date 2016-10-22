@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, Response
+import re
+import base64
 import requests
 import redis
 import json
@@ -45,10 +47,10 @@ def to_greyscale(profile_picture):
   buffer_image.seek(0)
   return buffer_image
 
-def store(redis, gs_file, buffer_image):
-  redis.set(gs_file, buffer_image.getvalue())
+def store(redis, key, buffer_image):
+  redis.set(key, buffer_image.getvalue())
   three_hours = 60*60*3
-  return redis.expire(gs_file, three_hours)
+  return redis.expire(key, three_hours)
 
 @app.route('/', methods=['GET','POST'])
 def home():
@@ -70,8 +72,44 @@ def auth():
 @app.route('/images/<filename>', methods=['GET'])
 def image(filename):
   gs_file_string = redis.get(filename)
-  gs_image = BytesIO(gs_file_string)
-  return send_file(gs_image, mimetype='image/jpeg')
+  buffer_image = BytesIO()
+  gs_image = Image.open(BytesIO(gs_file_string))
+  gs_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  return Response(buffer_image.getvalue(), mimetype='image/jpeg')
+
+@app.route('/posters', methods=['POST'])
+def save_poster():
+  buffer_image = BytesIO()
+  buffer_image.seek(0)
+  base64image = request.form['image']
+  name = request.form['name']
+  base64image = re.sub('data:image/png;base64,','',str(base64image))
+  base64image = re.sub('\n','',base64image)
+  poster_image = Image.open(BytesIO(base64.b64decode(base64image)))
+  poster_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  redis.set(name, buffer_image.getvalue())
+  return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+@app.route('/posters/<name_image>', methods=['GET'])
+def render_poster(name_image):
+  # TODO: Parse for name and base64 Image
+  name = name_image.split('-')[0]
+  poster_string = redis.get(name)
+  buffer_image = BytesIO()
+  poster_image = Image.open(BytesIO(poster_string))
+  poster_image.save(buffer_image, 'JPEG', quality=90)
+  buffer_image.seek(0)
+  return Response(buffer_image.getvalue(), mimetype='image/jpeg')
+
+@app.route('/<name_image>', methods=['GET'])
+def personalized(name_image):
+  saved_poster = '/posters/' + name_image
+  full_name = request.args['fullName']
+  short_year = request.args['shortYear']
+  full_major = request.args['fullMajor']
+  return render_template('template.html', **locals())
 
 if __name__ == '__main__':
   app.run(debug=True, port=5003)
