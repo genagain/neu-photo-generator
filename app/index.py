@@ -4,7 +4,6 @@ import base64
 import requests
 import redis
 import json
-import ipdb
 import facebook
 import os
 from flask_sslify import SSLify
