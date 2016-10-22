@@ -90,7 +90,7 @@ def save_poster():
   poster_image = Image.open(BytesIO(base64.b64decode(base64image)))
   poster_image.save(buffer_image, 'JPEG', quality=90)
   buffer_image.seek(0)
-  store(redis, name, buffer_image)
+  redis.set(name, buffer_image.getvalue())
   return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route('/posters/<name_image>', methods=['GET'])
